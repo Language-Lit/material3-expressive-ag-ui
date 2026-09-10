@@ -165,3 +165,25 @@ adapter rather than its host, the CopilotKit launcher/window styles.
   overflow, and no page errors.
 - `npm run verify` passes: typecheck, 65 tests, build, stylesheet guard, and
   package-boundary inspection are green.
+
+## T04 — Initial public release
+
+Status: active
+Approved: 2026-09-10
+
+### Scope and expected files
+
+Prepare and publish version 0.1.0 as the package's initial public npm release.
+Update the README's release status and record the release here, verify and
+inspect the final tarball, commit and push the preparation, then publish only
+after the owner's separate final confirmation. After publication, verify clean
+installation from npm and create the matching `v0.1.0` Git tag and GitHub
+release. Expected files: `README.md` and `docs/ACTIVE_TASK.md`.
+
+### Acceptance checks
+
+1. The packaged README identifies 0.1.0 as the initial release.
+2. `npm run verify` and the final `npm pack --dry-run` pass from a clean tree.
+3. `@language-lit/material3-expressive-ag-ui@0.1.0` is publicly available from
+   the npm registry and installs successfully in a clean consumer fixture.
+4. The `v0.1.0` tag and GitHub release point to the published commit.

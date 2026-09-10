@@ -8,7 +8,7 @@ calls whose arguments arrive as partial JSON, activity notes, shared state, and
 runs that stop to ask permission. This package renders that conversation using
 [`@language-lit/material3-expressive`](https://m3e.language-lit.com).
 
-> **Status: `0.1.0`, unreleased.** The AG-UI-native surface is built and tested.
+> **Status: `0.1.0`, initial release.** The AG-UI-native surface is built and tested.
 > The CopilotKit v1 slot adapter is implemented at `/copilotkit`, tested with
 > CopilotKit 1.71.0. Its v2 slot API is not supported; see
 > [ADR 0004](docs/adr/0004-copilotkit-adapter-and-hardening.md).
