@@ -168,8 +168,9 @@ adapter rather than its host, the CopilotKit launcher/window styles.
 
 ## T04 — Initial public release
 
-Status: active
+Status: complete
 Approved: 2026-09-10
+Completed: 2026-09-10
 
 ### Scope and expected files
 
@@ -187,3 +188,16 @@ release. Expected files: `README.md` and `docs/ACTIVE_TASK.md`.
 3. `@language-lit/material3-expressive-ag-ui@0.1.0` is publicly available from
    the npm registry and installs successfully in a clean consumer fixture.
 4. The `v0.1.0` tag and GitHub release point to the published commit.
+
+### Verification record
+
+- `npm run verify` passes: typecheck, 65 tests, build, stylesheet guard, and
+  package-boundary inspection are green.
+- npm's publish dry run reported a 59.8 kB public tarball containing the
+  expected 21 files. Version 0.1.0 is published under the `latest` tag with
+  public access, and its registry metadata records git commit `6be4959`.
+- A clean temporary consumer installed version 0.1.0 from the npm registry and
+  successfully imported the native React entry, the React-free protocol entry,
+  and the stylesheet export.
+- Annotated tag `v0.1.0` and the corresponding public GitHub release point to
+  the published commit.
