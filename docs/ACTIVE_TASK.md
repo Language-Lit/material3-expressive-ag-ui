@@ -62,8 +62,6 @@ Note for future browser checks: a background tab throttles timers and serves a
 stale painted frame to screenshots, so a paced run can look stalled when it has
 already finished. Read the live DOM before concluding otherwise.
 
-## Current task
-
 ## T02 — CopilotKit adapter
 
 Status: complete
@@ -201,3 +199,67 @@ release. Expected files: `README.md` and `docs/ACTIVE_TASK.md`.
   and the stylesheet export.
 - Annotated tag `v0.1.0` and the corresponding public GitHub release point to
   the published commit.
+
+## T05 — README for AG-UI discovery
+
+Status: complete
+Approved: 2026-09-11 (owner: implement the README audit; media to follow)
+Completed: 2026-09-11
+
+### Scope and expected files
+
+Revise `README.md` around the live demo, native and CopilotKit integration
+routes, quick start, compatibility, and author attribution. Move detailed
+adapter guidance into `docs/COPILOTKIT.md`. Record work in this file.
+Use existing demo links; the owner will provide images or recordings later.
+
+### Acceptance checks
+
+1. README links and examples match the existing files and public API.
+2. Setup states endpoint requirements, peer dependencies, and rendering limits.
+3. Adapter guidance remains available through a linked consumer guide.
+4. `git diff --check` and `npm run verify` pass.
+
+### Verification record
+
+- README now leads with demo/docs links, npm and CI badges, benefits, and the
+  native/CopilotKit integration choices. Endpoint requirements, peer versions,
+  plain-text limitations, and author attribution are explicit.
+- Adapter details are preserved in `docs/COPILOTKIT.md`; local links and
+  section anchors pass an automated existence check. The demo URL returns 200.
+- `npm run verify` passes: typecheck, all 65 tests, build, stylesheet guard,
+  and package-boundary checks. `git diff --check` passes.
+- No product geometry changed. Images and recordings are deferred to the owner.
+
+## Current task
+
+## T06 — Publish README preview and repository presentation
+
+Status: complete
+Approved: 2026-09-11 (owner: add preview, commit/push, and update GitHub metadata)
+Completed: 2026-09-11
+
+### Scope and expected files
+
+Extract a preview from the owner's recording into `docs/assets/`, link it to
+the demo from `README.md`, and publish the approved T05 documentation changes.
+Update GitHub's repository description, homepage, and discovery topics.
+Expected files: `README.md`, `docs/assets/agent-preview.webp`, this task record,
+and the already prepared `docs/COPILOTKIT.md`.
+
+### Acceptance checks
+
+1. Preview is visually checked and shows weather UI and the approval prompt.
+2. README preview links to the live demo; `git diff --check` and `npm run verify` pass.
+3. Documentation is committed and pushed, and remote metadata is confirmed.
+
+### Verification record
+
+- Extracted and visually inspected a cropped WebP preview from the owner's
+  recording; weather and approval controls remain readable. README links the
+  image to the live demo and identifies the scene as scripted.
+- `npm run verify` passes: 65 tests, typecheck, build, stylesheet guard, and
+  package checks. `git diff --check` passes.
+- GitHub description, demo homepage, and eight discovery topics were applied
+  and read back successfully. Remote main matched the local base before publication.
+- T05 documentation and this preview are published together in the completing commit.
