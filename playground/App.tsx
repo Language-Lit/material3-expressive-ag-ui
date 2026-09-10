@@ -81,8 +81,8 @@ export function App() {
           </div>
         </div>
 
-        <Surface color="surface" className="pg-chat">
-          {demo === 'copilotkit' ? <Suspense fallback={<Text>Loading CopilotKit…</Text>}><CopilotDemo /></Suspense> :
+        <Surface color="surface" className={`pg-chat${demo === 'copilotkit' ? ' pg-chat--copilotkit' : ''}`}>
+          {demo === 'copilotkit' ? <Suspense fallback={<Text className="pg-chat__status">Loading CopilotKit…</Text>}><CopilotDemo /></Suspense> :
           <AgentProvider agent={agent} toolRenderers={toolRenderers}>
             <AgentChat
               emptyState={

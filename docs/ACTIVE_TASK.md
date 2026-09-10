@@ -128,4 +128,40 @@ the presentational components and the CSS namespace, and sharing none of the
 
 ### Remaining
 
-Publishing is not performed. No approved implementation task remains open.
+Publishing is not performed.
+
+## T03 — CopilotKit playground layout
+
+Status: complete
+Approved: 2026-09-10 (owner: fix the UI bugs shown in the CopilotKit playground)
+Completed: 2026-09-10
+
+### Scope and expected files
+
+Repair the clipped CopilotKit introduction and missing or hidden popup launcher
+shown in the playground, including any directly related responsive containment
+issue. Expected files are the playground shell and, only if the defect is in the
+adapter rather than its host, the CopilotKit launcher/window styles.
+
+### Acceptance checks
+
+1. The AG-UI and CopilotKit playground modes render without clipped content at
+   desktop and mobile widths.
+2. The CopilotKit launcher remains visible and opens a usable popup.
+3. Both light and dark color modes are visually checked.
+4. `npm run verify` passes.
+
+### Verification record
+
+- Live-browser geometry confirmed the popup launcher was correctly fixed to the
+  viewport but clipped by the playground surface's `overflow: hidden`; the
+  CopilotKit introduction also started on that exact clipping edge.
+- CopilotKit mode now permits its viewport-level popup controls to escape the
+  demo surface, while native AG-UI mode retains clipped chat containment.
+- The introduction and lazy-loading state have a consistent inset and reset
+  margin.
+- Desktop dark (1756px), desktop light (1280px), and mobile dark (390px) checks
+  show a visible launcher, an opening dialog within the viewport, no horizontal
+  overflow, and no page errors.
+- `npm run verify` passes: typecheck, 65 tests, build, stylesheet guard, and
+  package-boundary inspection are green.

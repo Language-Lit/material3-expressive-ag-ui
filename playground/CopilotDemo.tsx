@@ -28,7 +28,7 @@ export function CopilotDemo() {
   const agents = useMemo(() => ({ default: createDemoAgent() }), [])
   return <CopilotKit agents__unsafe_dev_only={agents} showDevConsole={false} enableInspector={false}>
     <Renderers />
-    <Text as="p" variant="bodyLarge">Open the chat to run the same five scenarios through CopilotKit.</Text>
+    <Text as="p" variant="bodyLarge" className="pg-copilot-intro">Open the chat to run the same five scenarios through CopilotKit.</Text>
     <CopilotPopup {...copilotKitComponents} suggestions={[]} labels={{ title: 'Material assistant', initial: 'Send a message to begin.' }} />
   </CopilotKit>
 }
