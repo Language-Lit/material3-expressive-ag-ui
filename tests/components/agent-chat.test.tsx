@@ -1,6 +1,6 @@
 import type { RunAgentInput } from '@ag-ui/core'
 import { Material3Provider } from '@language-lit/material3-expressive'
-import { render, screen, waitFor } from '@testing-library/react'
+import { fireEvent, render, screen, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import type { ReactNode } from 'react'
 import { describe, expect, it } from 'vitest'
@@ -137,10 +137,10 @@ describe('AgentChat', () => {
     await waitFor(() => expect(screen.getByRole('status').textContent).toBe(''))
   })
 
-  it('offers a stop control only while a run is in flight', async () => {
+  it('stops a paced run, clears streaming state and allows another message', async () => {
     const user = userEvent.setup()
-    const agent = new ScriptedAgent({ script: reply, pace: 4 })
-    mount(<AgentChat />, agent)
+    const agent = new ScriptedAgent({ script: reply, pace: 20 })
+    const { container } = mount(<AgentChat />, agent)
 
     expect(screen.queryByRole('button', { name: 'Stop generating' })).toBeNull()
 
@@ -150,10 +150,27 @@ describe('AgentChat', () => {
     await waitFor(() =>
       expect(screen.getByRole('button', { name: 'Stop generating' })).toBeDefined(),
     )
+    await user.click(screen.getByRole('button', { name: 'Stop generating' }))
     await waitFor(
       () => expect(screen.queryByRole('button', { name: 'Stop generating' })).toBeNull(),
       { timeout: 3000 },
     )
+    expect(agent.isRunning).toBe(false)
+    expect(screen.getByRole('status').getAttribute('data-phase')).toBe('idle')
+    expect(container.querySelector('.m3e-agui-caret')).toBeNull()
+    expect(screen.queryByText('Found 9 matches.')).toBeNull()
+    await user.type(screen.getByLabelText('Message'), 'again')
+    expect(screen.getByRole('button', { name: 'Send message' }).hasAttribute('disabled')).toBe(false)
+  })
+
+  it('does not send Enter while selecting an IME candidate', () => {
+    const agent = new ScriptedAgent({ script: reply })
+    mount(<AgentChat />, agent)
+    const field = screen.getByLabelText('Message')
+    fireEvent.change(field, { target: { value: '日本語' } })
+    fireEvent.keyDown(field, { key: 'Enter', isComposing: true })
+    expect(agent.messages).toHaveLength(0)
+    expect((field as HTMLTextAreaElement).value).toBe('日本語')
   })
 
   it('hands a tool call to a registered renderer instead of the default card', async () => {

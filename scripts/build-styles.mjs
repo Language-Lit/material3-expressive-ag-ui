@@ -52,8 +52,11 @@ for (const block of withoutComments.matchAll(/(?:^|[{}])\s*([^{}]+?)\s*\{/g)) {
   if (head.startsWith('@')) continue
   for (const part of head.split(',').map((value) => value.trim())) {
     if (part === '' || KEYFRAME_SELECTOR.test(part)) continue
-    if (!part.includes('.m3e-agui')) {
+    if (!/^\.m3e-agui(?:[-_a-zA-Z0-9]*)(?=[\s.#:[>+~]|$)/.test(part)) {
       throw new Error(`Selector outside the m3e-agui namespace: ${part}`)
+    }
+    if (/\.m3e-(?!agui)/.test(part)) {
+      throw new Error(`Selector targets a private design-system class: ${part}`)
     }
   }
 }

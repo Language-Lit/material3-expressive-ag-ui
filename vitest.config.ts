@@ -6,6 +6,7 @@ export default defineConfig({
   test: {
     environment: 'jsdom',
     globals: true,
+    server: { deps: { inline: [/@copilotkit\/react-(core|ui)/] } },
     include: ['tests/**/*.test.{ts,tsx}'],
   },
 })

@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { lazy, Suspense, useEffect, useMemo, useState } from 'react'
 import {
   Card,
   Material3Provider,
@@ -11,6 +11,8 @@ import { AgentChat } from '../src/components/AgentChat'
 import { AgentProvider } from '../src/runtime/agent-context'
 import type { ToolRendererRegistry } from '../src/runtime/agent-context'
 import { createDemoAgent } from './demo-agent'
+
+const CopilotDemo = lazy(() => import('./CopilotDemo').then((module) => ({ default: module.CopilotDemo })))
 
 type ColorMode = 'light' | 'dark' | 'system'
 
@@ -46,6 +48,7 @@ const toolRenderers: ToolRendererRegistry = {
 
 export function App() {
   const [colorMode, setColorMode] = useState<ColorMode>('system')
+  const [demo, setDemo] = useState('native')
   const agent = useMemo(() => createDemoAgent(), [])
 
   // `body` is painted by this page but sits outside the provider's div, so it
@@ -64,6 +67,8 @@ export function App() {
             AG-UI · Material 3 Expressive
           </Text>
           <div className="pg-bar__actions">
+            <SegmentedButtonGroup segments={[{ value: 'native', label: 'AG-UI' }, { value: 'copilotkit', label: 'CopilotKit' }]}
+              value={demo} onValueChange={setDemo} />
             <SegmentedButtonGroup
               segments={[
                 { value: 'light', label: 'Light' },
@@ -77,6 +82,7 @@ export function App() {
         </div>
 
         <Surface color="surface" className="pg-chat">
+          {demo === 'copilotkit' ? <Suspense fallback={<Text>Loading CopilotKit…</Text>}><CopilotDemo /></Suspense> :
           <AgentProvider agent={agent} toolRenderers={toolRenderers}>
             <AgentChat
               emptyState={
@@ -92,7 +98,7 @@ export function App() {
                 </>
               }
             />
-          </AgentProvider>
+          </AgentProvider>}
         </Surface>
       </div>
     </Material3Provider>

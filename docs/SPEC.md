@@ -1,6 +1,6 @@
 # Material 3 Expressive AG-UI Specification
 
-Status: vertical slice implemented; unreleased
+Status: native slice and CopilotKit v1 adapter implemented; unreleased
 Specification date: 2026-09-10
 Current version: `0.1.0`
 
@@ -72,14 +72,20 @@ The package MUST export exactly:
 @language-lit/material3-expressive-ag-ui
 @language-lit/material3-expressive-ag-ui/protocol
 @language-lit/material3-expressive-ag-ui/styles.css
+@language-lit/material3-expressive-ag-ui/copilotkit
 ```
 
-`./copilotkit` is **reserved** and not yet implemented; see
-[ADR 0003](adr/0003-reserved-copilotkit-entry-point.md). Adding, renaming, or
-removing a public path is a breaking change requiring an ADR.
+`./copilotkit` implements the reserved path with owner approval; see
+[ADR 0004](adr/0004-copilotkit-adapter-and-hardening.md). Adding, renaming, or
+removing another public path requires owner approval and an ADR.
 
 - **`.`** — the React surface. Carries `'use client'`. Exports `useAgent`,
   `AgentProvider` and its hooks, the ten components, and the timeline types.
+- **`./copilotkit`** — carries `'use client'`. Exports the eleven v1 renderer
+  slots from ADR 0003, their props types, the unified `RenderMessage` slot and
+  `copilotKitComponents` preset. Targets CopilotKit 1.71.x. It MUST NOT use the
+  native agent binding, and the native entry MUST NOT import this adapter or
+  either optional CopilotKit peer. CopilotKit owns generative UI and interrupts.
 - **`./protocol`** — the React-free surface. Exports `projectTimeline`,
   `createRunOverlay`, `reduceRunOverlay`, `parsePartialJson`, and the types. It
   MUST NOT import React, touch the DOM, or carry `'use client'`, so it stays
@@ -100,6 +106,9 @@ The package MUST ship **zero runtime dependencies**. `@ag-ui/client`,
 are peers. Anything the package needs but a peer does not provide is
 implemented in-house or not used — `parsePartialJson` exists for exactly this
 reason.
+
+`@copilotkit/react-core` and `@copilotkit/react-ui` are optional peers used only
+by `./copilotkit`. Neither the protocol nor native surface requires them.
 
 ## 3. Architecture
 

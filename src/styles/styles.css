@@ -11,3 +11,10 @@
 @import '../components/RunStatus/RunStatus.css';
 @import '../components/ToolCallCard/ToolCallCard.css';
 @import '../components/UserMessage/UserMessage.css';
+@import '../copilotkit/AssistantMessage/AssistantMessage.css';
+@import '../copilotkit/UserMessage/UserMessage.css';
+@import '../copilotkit/Messages/Messages.css';
+@import '../copilotkit/Input/Input.css';
+@import '../copilotkit/Window/Window.css';
+@import '../copilotkit/Button/Button.css';
+@import '../copilotkit/Header/Header.css';

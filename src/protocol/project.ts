@@ -98,7 +98,11 @@ export function projectTimeline(
 ): TimelineNode[] {
   const { includeSystem = false, includeReasoning = true, interrupts = [] } = options
   const answers = indexToolAnswers(messages)
-  const answeredCallIds = new Set<string>()
+  const answeredCallIds = new Set(
+    messages.flatMap((message) => message.role === 'assistant'
+      ? (message.toolCalls ?? []).map((call) => call.id) : []),
+  )
+  const emittedOrphans = new Set<string>()
   const nodes: TimelineNode[] = []
 
   for (const message of messages) {
@@ -160,7 +164,6 @@ export function projectTimeline(
           })
         }
         for (const toolCall of message.toolCalls ?? []) {
-          answeredCallIds.add(toolCall.id)
           nodes.push(projectToolCall(toolCall, message.id, overlay, answers, subagentRunId))
         }
         break
@@ -171,7 +174,8 @@ export function projectTimeline(
         // absent — a snapshot that dropped the issuing message — would
         // otherwise vanish, so it is emitted with an empty `name`; renderers
         // fall back to the id.
-        if (answeredCallIds.has(message.toolCallId)) break
+        if (answeredCallIds.has(message.toolCallId) || emittedOrphans.has(message.toolCallId)) break
+        emittedOrphans.add(message.toolCallId)
         const answer = answers.get(message.toolCallId)
         nodes.push({
           kind: 'tool-call',
@@ -181,7 +185,7 @@ export function projectTimeline(
           rawArgs: '',
           args: undefined,
           argsComplete: false,
-          status: message.error === undefined ? 'complete' : 'error',
+          status: answer?.error === undefined ? 'complete' : 'error',
           result: answer?.content,
           error: answer?.error,
           subagentRunId,

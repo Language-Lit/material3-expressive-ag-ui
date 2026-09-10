@@ -1,0 +1,16 @@
+.m3e-agui-ck-messages {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-block-size: 0;
+}
+.m3e-agui-ck-messages > .m3e-agui-thread { flex: 1; min-block-size: 0; }
+.m3e-agui-ck-chat {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  block-size: 100%;
+  min-block-size: 0;
+  color: var(--m3e-sys-color-on-surface);
+  background: var(--m3e-sys-color-surface);
+}

@@ -15,29 +15,9 @@
   flex: none;
 }
 
-/* App-owned control: the library has no disclosure component, and a Button
-   here would impose a 48px-tall pill on a dense metadata row. It keeps a
-   48px interaction target through padding on the row instead. */
 .m3e-agui-tool-call__toggle {
-  display: flex;
   flex: 1;
-  align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  min-block-size: var(--m3e-sys-density-minimum-interactive-target);
-  padding: 0;
-  border: none;
-  background: none;
-  color: inherit;
-  font: inherit;
-  text-align: start;
-  cursor: pointer;
-}
-
-.m3e-agui-tool-call__toggle:focus-visible {
-  outline: var(--m3e-comp-button-focus-ring-width) solid var(--m3e-comp-button-focus-ring-color);
-  outline-offset: var(--m3e-comp-button-focus-ring-offset);
-  border-radius: var(--m3e-sys-shape-corner-small);
+  min-inline-size: 0;
 }
 
 .m3e-agui-tool-call__name {
@@ -85,7 +65,9 @@
   border-radius: var(--m3e-sys-shape-corner-small);
   background: var(--m3e-sys-color-surface-container-high);
   color: var(--m3e-sys-color-on-surface);
-  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  font-family: var(--m3e-sys-typescale-baseline-body-small-font-family);
+  font-weight: var(--m3e-sys-typescale-baseline-body-small-font-weight);
+  letter-spacing: var(--m3e-sys-typescale-baseline-body-small-letter-spacing);
   font-size: var(--m3e-sys-typescale-baseline-body-small-font-size);
   line-height: var(--m3e-sys-typescale-baseline-body-small-line-height);
   white-space: pre-wrap;

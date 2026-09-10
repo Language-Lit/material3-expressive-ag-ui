@@ -62,11 +62,36 @@ Note for future browser checks: a background tab throttles timers and serves a
 stale painted frame to screenshots, so a paced run can look stalled when it has
 already finished. Read the live DOM before concluding otherwise.
 
-## Next task
+## Current task
 
 ## T02 — CopilotKit adapter
 
-Status: not started; requires owner approval
+Status: complete
+Approved: 2026-09-10 (owner: fix the problems and implement what remains)
+Completed: 2026-09-10
+
+### Scope and expected files
+
+Harden the existing slice before adding the adapter: repair run finalization and
+transport errors, deduplicate out-of-order tool results, exercise cancellation
+through the real SDK, remove design-system violations, and enforce package
+boundaries in CI. Expected files: `src/protocol/`, `src/runtime/`, affected
+`src/components/`, `fixtures/`, `tests/`, `scripts/`, and `.github/workflows/`.
+
+Implement the adapter below in `src/copilotkit/`, with the separate build target,
+optional peers, shared stylesheet, tests and playground coverage. Update
+`package.json`, the lockfile, build configuration, README, specification,
+architecture and ADRs to describe the approved fourth export. Publishing is
+outside this task.
+
+### Acceptance checks
+
+1. Regression tests exercise cancellation and failures through `AbstractAgent`.
+2. All eleven adapter slots satisfy installed CopilotKit contracts and have
+   interaction/rendering coverage without the native `AgentProvider`.
+3. `npm run verify` checks types, tests, build, exact exports, zero runtime
+   dependencies, server-safe protocol and optional-peer isolation.
+4. Playground interactions and rendering are checked in light and dark modes.
 
 Add `./copilotkit` per ADR 0003: components satisfying CopilotKit's renderer
 slots (`AssistantMessage`, `UserMessage`, `Messages`, `Input`,
@@ -75,3 +100,32 @@ slots (`AssistantMessage`, `UserMessage`, `Messages`, `Input`,
 `@copilotkit/react-core` and `@copilotkit/react-ui` as optional peers, reusing
 the presentational components and the CSS namespace, and sharing none of the
 `useAgent` binding.
+
+### Verification record
+
+- `npm run verify`: typecheck, 65 tests across eight files, ESM/declaration
+  build, stylesheet guard and package-boundary inspection pass.
+- `npm run playground:build` and `git diff --check` pass.
+- Real `CopilotKit`/`CopilotChat` tests run a `ScriptedAgent` through the SDK:
+  send, registered generative renderer, stop, interrupt/approve/resume, rejected
+  input recovery, IME/newlines, feedback, and popup controls. Native tests cover
+  transport failure, cancellation and out-of-order tool results.
+- Headless Chrome: all five scenarios complete in both light and dark modes
+  for both native and CopilotKit demos, with no page errors. Screenshots were
+  inspected. The popup composer stays inside the dialog; at 390px the page has
+  no horizontal overflow; Escape closes the dialog and restores launcher focus.
+  Browser QA found and corrected the popup chat-wrapper flex layout and the
+  playground's wrapping controls.
+- The exact four exports, client directives, React/DOM-free protocol, absence
+  of runtime dependencies, and separation from optional CopilotKit peers are
+  enforced by `scripts/verify-package.mjs` and `.github/workflows/verify.yml`.
+- CopilotKit support is explicitly 1.71.x v1 slots; upstream's different v2
+  slot API is not part of this task. Application-owned tool/interrupt renderers
+  remain authoritative. The README and ADR 0004 document setup and limitations.
+- Development tooling: Vitest updated to 4.1.11 to resolve its reported
+  advisory. npm still reports one low-severity esbuild development-server
+  advisory through the existing build toolchain; no runtime dependencies ship.
+
+### Remaining
+
+Publishing is not performed. No approved implementation task remains open.

@@ -150,9 +150,23 @@ system's `<Name>.types.ts` split, recorded in [SPEC.md §6](SPEC.md).
 | `Composer` | input | Enter sends; send/stop swap; IME-safe |
 
 Presentational components take a node as a prop and read context only for what is
-genuinely ambient. That keeps them reusable by the deferred CopilotKit adapter,
+genuinely ambient. That keeps them reusable by the CopilotKit adapter,
 whose slots supply data from CopilotKit rather than from `useAgent`
 ([ADR 0003](adr/0003-reserved-copilotkit-entry-point.md)).
+
+### CopilotKit adapter
+
+`src/copilotkit/` is a separate entry point over the shared presentation
+components. It consumes CopilotKit 1.71.x v1 slot props and ambient CopilotKit
+context, never the native runtime. Its eleven named slots and unified
+`RenderMessage` preserve CopilotKit-owned generative UI, callbacks and interrupts.
+The `copilotKitComponents` preset includes the current slots and layout class.
+See [ADR 0004](adr/0004-copilotkit-adapter-and-hardening.md) for compatibility
+and fallback-renderer semantics.
+
+Transport failures and cancellation are finalized in the native store through
+SDK lifecycle callbacks, since they need not produce terminal protocol events.
+The transcript remains the SDK's; only ephemeral overlay state is repaired.
 
 ### Two rules the components never break
 

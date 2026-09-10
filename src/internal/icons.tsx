@@ -22,6 +22,14 @@ interface IconSourceProps {
 
 type Glyph = ComponentType<IconSourceProps>
 
+export const CloseIcon: Glyph = (props) => (
+  <svg {...props} viewBox="0 0 24 24"><path d="m6.4 5 5.6 5.6L17.6 5 19 6.4 13.4 12l5.6 5.6-1.4 1.4-5.6-5.6L6.4 19 5 17.6l5.6-5.6L5 6.4Z" /></svg>
+)
+
+export const ChatIcon: Glyph = (props) => (
+  <svg {...props} viewBox="0 0 24 24"><path d="M4 3h16a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H7l-5 4V5a2 2 0 0 1 2-2Zm2 4v2h12V7Zm0 4v2h9v-2Z" /></svg>
+)
+
 export const SendIcon: Glyph = (props) => (
   <svg {...props} viewBox="0 0 24 24">
     <path d="M3.4 20.4 21 12 3.4 3.6 3.4 10.1 15.3 12 3.4 13.9Z" />

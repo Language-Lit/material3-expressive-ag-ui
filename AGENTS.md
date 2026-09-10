@@ -22,8 +22,8 @@ and obtain owner approval before changing its status to active.
   to change its geometry. A genuine defect or gap there is reported to that
   repository with a reproduction; work around it in this package's own code only
   if the workaround is idiomatic.
-- The package exports exactly `.`, `./protocol`, and `./styles.css`.
-  `./copilotkit` is reserved by ADR 0003 and unimplemented. Adding, renaming, or
+- The package exports exactly `.`, `./protocol`, `./styles.css`, and
+  `./copilotkit` (approved by ADR 0004). Adding, renaming, or
   removing a public path is a breaking change that requires owner approval and
   an ADR.
 - The package ships no runtime dependencies. Everything else is a peer. If a
@@ -65,7 +65,7 @@ any application:
   `<Name>.types.ts` split, recorded in `docs/SPEC.md` §6.
 - Public components use named exports and exported props types.
 - Presentational components take their data as props and read context only for
-  what is genuinely ambient, so the deferred CopilotKit adapter can reuse them.
+  what is genuinely ambient, so the CopilotKit adapter can reuse them.
 - Do not deep-import another component's private files.
 - Record cross-component or public-API decisions in an ADR.
 - The library ships no icon font. Glyphs are hand-authored SVG in

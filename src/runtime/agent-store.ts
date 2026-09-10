@@ -29,6 +29,7 @@ export interface AgentStore {
 
 export function createAgentStore(agent: AbstractAgent): AgentStore {
   let overlay = createRunOverlay()
+  let finalized = false
   let snapshot = build()
   let detach: (() => void) | undefined
   let scheduled = false
@@ -39,7 +40,7 @@ export function createAgentStore(agent: AbstractAgent): AgentStore {
       messages: agent.messages.slice(),
       state: agent.state,
       overlay,
-      isRunning: agent.isRunning,
+      isRunning: agent.isRunning && !finalized,
       interrupts: agent.pendingInterrupts.slice(),
     }
   }
@@ -61,6 +62,11 @@ export function createAgentStore(agent: AbstractAgent): AgentStore {
   }
 
   const subscriber: AgentSubscriber = {
+    onRunInitialized({ input }) {
+      finalized = false
+      overlay = { ...createRunOverlay(), phase: 'running', runId: input.runId, threadId: input.threadId }
+      publish()
+    },
     onEvent({ event }) {
       overlay = reduceRunOverlay(overlay, event)
       publish()
@@ -71,10 +77,29 @@ export function createAgentStore(agent: AbstractAgent): AgentStore {
     onStateChanged() {
       publish()
     },
-    onRunFailed() {
+    onRunFailed({ error }) {
+      // Transport failures do not necessarily arrive as RUN_ERROR events.
+      // Cancellation is a normal terminal state, not a failed reply.
+      overlay = {
+        ...overlay,
+        phase: error.name === 'AbortError' ? 'idle' : 'error',
+        error: error.name === 'AbortError' ? undefined : { message: error.message },
+        streamingMessageIds: new Set(),
+        streamingToolCallIds: new Set(),
+      }
       publish()
     },
     onRunFinalized() {
+      // The SDK may notify before resetting isRunning in its finally block.
+      finalized = true
+      overlay = {
+        ...overlay,
+        phase: overlay.phase === 'error' ? 'error' : 'idle',
+        streamingMessageIds: new Set(),
+        streamingToolCallIds: new Set(),
+        steps: overlay.steps.filter((step) => step.status !== 'running'),
+        subagents: overlay.subagents.filter((subagent) => subagent.status !== 'running'),
+      }
       publish()
     },
   }

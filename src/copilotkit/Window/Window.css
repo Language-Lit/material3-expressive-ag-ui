@@ -1,0 +1,14 @@
+.m3e-agui-ck-window { inline-size: min(40rem, calc(100vw - 32px)); }
+.m3e-agui-ck-window__content {
+  display: flex;
+  flex-direction: column;
+  block-size: min(42rem, 75dvh);
+  min-block-size: 0;
+}
+/* CopilotKit supplies Header followed by its chat root as the window children. */
+.m3e-agui-ck-window__content > :last-child {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-block-size: 0;
+}

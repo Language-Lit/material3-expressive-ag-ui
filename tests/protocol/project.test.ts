@@ -23,6 +23,21 @@ const askAndCall: Message[] = [
 ]
 
 describe('projectTimeline', () => {
+  it('merges a result that precedes its issuing call without duplicate keys', () => {
+    const calls = projectTimeline([askAndCall[2]!, askAndCall[1]!], overlay())
+      .filter((node) => node.kind === 'tool-call')
+    expect(calls).toHaveLength(1)
+    expect(calls[0]).toMatchObject({ id: 'c1', name: 'search', result: '9 results' })
+  })
+
+  it('emits repeated orphan results once, using the latest answer consistently', () => {
+    const nodes = projectTimeline([
+      { id: 't1', role: 'tool', toolCallId: 'c1', content: 'old' },
+      { id: 't2', role: 'tool', toolCallId: 'c1', content: '', error: 'failed' },
+    ], overlay())
+    expect(nodes).toHaveLength(1)
+    expect(nodes[0]).toMatchObject({ status: 'error', error: 'failed', result: '' })
+  })
   it('projects a turn, its text and its call in transcript order', () => {
     const nodes = projectTimeline(askAndCall, overlay())
     expect(nodes.map((node) => node.kind)).toEqual(['user', 'assistant-text', 'tool-call'])

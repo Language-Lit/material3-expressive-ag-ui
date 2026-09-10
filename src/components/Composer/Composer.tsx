@@ -45,7 +45,9 @@ export function Composer({
     if (!canSend) return
     const text = value
     setValue('')
-    void send(text)
+    // The store reports failures through RunStatus; do not leak an unhandled
+    // rejection from a DOM event handler. Imperative send() still rejects.
+    void send(text).catch(() => {})
   }
 
   function onKeyDown(event: KeyboardEvent<HTMLTextAreaElement>) {

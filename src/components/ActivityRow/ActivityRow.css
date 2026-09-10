@@ -6,7 +6,7 @@
   margin: 0;
   color: var(--m3e-sys-color-on-surface-variant);
   text-transform: uppercase;
-  letter-spacing: 0.06em;
+  letter-spacing: var(--m3e-sys-typescale-baseline-label-medium-letter-spacing);
 }
 
 .m3e-agui-activity__fields {

@@ -20,6 +20,7 @@ body {
 
 .pg-bar {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   justify-content: space-between;
   gap: 16px;
@@ -28,6 +29,7 @@ body {
 
 .pg-bar__actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
 }
@@ -48,6 +50,6 @@ body {
 }
 
 .pg-weather__temp {
-  font-size: 40px;
-  line-height: 1;
+  font-size: var(--m3e-sys-typescale-baseline-display-small-font-size);
+  line-height: var(--m3e-sys-typescale-baseline-display-small-line-height);
 }

@@ -12,6 +12,7 @@ export default defineConfig({
   entry: {
     index: 'src/index.ts',
     protocol: 'src/protocol/index.ts',
+    copilotkit: 'src/copilotkit/index.ts',
   },
   format: ['esm'],
   dts: true,
@@ -25,5 +26,7 @@ export default defineConfig({
     '@ag-ui/client',
     '@ag-ui/core',
     '@language-lit/material3-expressive',
+    '@copilotkit/react-core',
+    '@copilotkit/react-ui',
   ],
 })

@@ -1,0 +1,10 @@
+.m3e-agui-ck-assistant__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+.m3e-agui-ck-assistant {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

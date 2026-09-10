@@ -1,6 +1,7 @@
 # ADR 0003: `./copilotkit` is reserved, not implemented
 
 Status: accepted (implementation deferred)
+Superseded for implementation/export status by [ADR 0004](0004-copilotkit-adapter-and-hardening.md).
 Date: 2026-09-10
 
 ## Context

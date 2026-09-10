@@ -2,7 +2,7 @@ import { AbstractAgent } from '@ag-ui/client'
 import type { AgentConfig } from '@ag-ui/client'
 import { EventType } from '@ag-ui/core'
 import type { BaseEvent, RunAgentInput } from '@ag-ui/core'
-import { Observable } from 'rxjs'
+import { Observable, type Subscriber } from 'rxjs'
 
 /**
  * An agent that replays a scripted event stream.
@@ -26,6 +26,11 @@ export interface ScriptedAgentConfig extends AgentConfig {
 export class ScriptedAgent extends AbstractAgent {
   private readonly script: Script
   private readonly pace: number
+  private stream?: Subscriber<BaseEvent>
+
+  override abortRun(): void {
+    this.stream?.error(new DOMException('Run cancelled', 'AbortError'))
+  }
 
   constructor({ script, pace = 0, ...config }: ScriptedAgentConfig) {
     super(config)
@@ -38,17 +43,20 @@ export class ScriptedAgent extends AbstractAgent {
     const pace = this.pace
 
     return new Observable<BaseEvent>((subscriber) => {
+      this.stream = subscriber
       let cancelled = false
       void (async () => {
         for (const event of events) {
           if (cancelled) return
           if (pace > 0) await new Promise((resolve) => setTimeout(resolve, pace))
+          if (cancelled) return
           subscriber.next(event)
         }
         if (!cancelled) subscriber.complete()
       })()
       return () => {
         cancelled = true
+        if (this.stream === subscriber) this.stream = undefined
       }
     })
   }

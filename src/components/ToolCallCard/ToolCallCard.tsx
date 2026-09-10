@@ -1,5 +1,5 @@
 import { useId, useState } from 'react'
-import { Card, CircularProgress, Icon, Text } from '@language-lit/material3-expressive'
+import { Button, Card, CircularProgress, Icon, Text } from '@language-lit/material3-expressive'
 
 import { cx } from '../../internal/classNames'
 import { CheckIcon, ChevronIcon, ErrorIcon, ToolIcon } from '../../internal/icons'
@@ -69,8 +69,8 @@ export function ToolCallCard({ node, defaultExpanded = false, className }: ToolC
     >
       <div className="m3e-agui-tool-call__header">
         <Icon source={ToolIcon} size={18} className="m3e-agui-tool-call__glyph" />
-        <button
-          type="button"
+        <Button
+          variant="text"
           className="m3e-agui-tool-call__toggle"
           onClick={() => setExpanded((open) => !open)}
           aria-expanded={expanded}
@@ -80,7 +80,7 @@ export function ToolCallCard({ node, defaultExpanded = false, className }: ToolC
             {node.name || node.id}
           </Text>
           <Icon source={ChevronIcon} size={18} className="m3e-agui-tool-call__chevron" />
-        </button>
+        </Button>
         <StatusIndicator node={node} />
       </div>
 

@@ -11,7 +11,7 @@ import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const distDir = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..', 'dist')
-const clientEntries = ['index.js']
+const clientEntries = ['index.js', 'copilotkit.js']
 const DIRECTIVE = "'use client';\n"
 
 for (const relative of clientEntries) {

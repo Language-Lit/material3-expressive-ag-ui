@@ -12,7 +12,11 @@
   vertical-align: text-bottom;
   border-radius: var(--m3e-sys-shape-corner-extra-small);
   background: var(--m3e-sys-color-primary);
-  animation: m3e-agui-caret-blink 1s steps(2, jump-none) infinite;
+  animation-name: m3e-agui-caret-blink;
+  animation-duration: var(--m3e-sys-motion-expressive-slow-effects-duration);
+  animation-timing-function: var(--m3e-sys-motion-expressive-slow-effects-easing);
+  animation-iteration-count: infinite;
+  animation-direction: alternate;
 }
 
 @keyframes m3e-agui-caret-blink {

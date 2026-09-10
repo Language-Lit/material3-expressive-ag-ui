@@ -35,6 +35,8 @@ export function InterruptPrompt({
     setAnswering(true)
     try {
       await resolveInterrupt(node.id, { status })
+    } catch {
+      // The shared run status reports the failure; allow another attempt.
     } finally {
       setAnswering(false)
     }
