@@ -1,0 +1,27 @@
+.m3e-agui-run-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 20px;
+  padding-inline: 4px;
+  color: var(--m3e-sys-color-on-surface-variant);
+}
+
+.m3e-agui-run-status[data-phase="error"] {
+  color: var(--m3e-sys-color-error);
+}
+
+/* Size the progress through its own component alias. Constraining the wrapper
+   would only clip it — the indicator draws at its token diameter. */
+.m3e-agui-run-status__spinner {
+  display: inline-flex;
+  flex: none;
+  --m3e-comp-circular-progress-diameter: 16px;
+  --m3e-comp-circular-progress-stroke-width: 2px;
+}
+
+.m3e-agui-run-status[data-idle] {
+  /* Kept in the tree so the live region persists, but it must not take space
+     the thread could use. */
+  min-block-size: 0;
+}

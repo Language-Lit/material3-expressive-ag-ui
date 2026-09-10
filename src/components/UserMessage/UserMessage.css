@@ -1,0 +1,16 @@
+.m3e-agui-user-message {
+  display: flex;
+  justify-content: flex-end;
+  padding-inline-start: 15%;
+}
+
+.m3e-agui-user-message__bubble {
+  padding-block: 10px;
+  padding-inline: 16px;
+}
+
+.m3e-agui-user-message__text {
+  margin: 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}

@@ -1,0 +1,15 @@
+.m3e-agui-composer {
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.m3e-agui-composer__field {
+  flex: 1;
+  min-inline-size: 0;
+}
+
+.m3e-agui-composer__action {
+  flex: none;
+  margin-block-end: 4px;
+}

@@ -1,0 +1,28 @@
+.m3e-agui-assistant-message__text {
+  color: var(--m3e-sys-color-on-surface);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.m3e-agui-caret {
+  display: inline-block;
+  inline-size: 0.5em;
+  block-size: 1.05em;
+  margin-inline-start: 2px;
+  vertical-align: text-bottom;
+  border-radius: var(--m3e-sys-shape-corner-extra-small);
+  background: var(--m3e-sys-color-primary);
+  animation: m3e-agui-caret-blink 1s steps(2, jump-none) infinite;
+}
+
+@keyframes m3e-agui-caret-blink {
+  to {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m3e-agui-caret {
+    animation: none;
+  }
+}

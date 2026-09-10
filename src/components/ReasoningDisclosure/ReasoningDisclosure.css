@@ -1,0 +1,40 @@
+.m3e-agui-reasoning__encrypted {
+  margin: 0;
+  color: var(--m3e-sys-color-on-surface-variant);
+}
+
+/* The sanctioned override surface: a component alias set on an ancestor, never
+   a selector against the library's own class names. */
+.m3e-agui-reasoning__toggle {
+  --m3e-comp-button-text-content-color: var(--m3e-sys-color-on-surface-variant);
+}
+
+.m3e-agui-reasoning__chevron {
+  transition-property: transform;
+  transition-duration: var(--m3e-sys-motion-expressive-fast-spatial-duration);
+  transition-timing-function: var(--m3e-sys-motion-expressive-fast-spatial-easing);
+}
+
+.m3e-agui-reasoning[data-expanded] .m3e-agui-reasoning__chevron {
+  transform: rotate(180deg);
+}
+
+.m3e-agui-reasoning__body {
+  padding-block: 4px 8px;
+  padding-inline-start: 12px;
+  margin-inline-start: 12px;
+  border-inline-start: 2px solid var(--m3e-sys-color-outline-variant);
+}
+
+.m3e-agui-reasoning__text {
+  margin: 0;
+  color: var(--m3e-sys-color-on-surface-variant);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m3e-agui-reasoning__chevron {
+    transition: none;
+  }
+}

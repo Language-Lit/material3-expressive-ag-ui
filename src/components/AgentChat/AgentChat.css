@@ -1,0 +1,18 @@
+.m3e-agui-chat {
+  display: flex;
+  flex-direction: column;
+  block-size: 100%;
+  min-block-size: 0;
+}
+
+.m3e-agui-chat__thread {
+  flex: 1;
+  min-block-size: 0;
+}
+
+.m3e-agui-chat__footer {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px 16px 16px;
+}

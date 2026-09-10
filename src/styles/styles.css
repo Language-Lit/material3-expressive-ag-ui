@@ -1,0 +1,13 @@
+/* Every rule in this package is namespaced under `m3e-agui`. It adds no token
+   definitions and no element resets: the base library's stylesheet supplies
+   the tokens these rules consume, and both must be loaded. */
+@import '../components/ActivityRow/ActivityRow.css';
+@import '../components/AgentChat/AgentChat.css';
+@import '../components/AssistantMessage/AssistantMessage.css';
+@import '../components/Composer/Composer.css';
+@import '../components/InterruptPrompt/InterruptPrompt.css';
+@import '../components/MessageThread/MessageThread.css';
+@import '../components/ReasoningDisclosure/ReasoningDisclosure.css';
+@import '../components/RunStatus/RunStatus.css';
+@import '../components/ToolCallCard/ToolCallCard.css';
+@import '../components/UserMessage/UserMessage.css';

@@ -1,0 +1,99 @@
+.m3e-agui-tool-call {
+  padding: 8px 12px;
+}
+
+.m3e-agui-tool-call__header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  --m3e-comp-circular-progress-diameter: 18px;
+  --m3e-comp-circular-progress-stroke-width: 2px;
+}
+
+.m3e-agui-tool-call__glyph {
+  color: var(--m3e-sys-color-on-surface-variant);
+  flex: none;
+}
+
+/* App-owned control: the library has no disclosure component, and a Button
+   here would impose a 48px-tall pill on a dense metadata row. It keeps a
+   48px interaction target through padding on the row instead. */
+.m3e-agui-tool-call__toggle {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-block-size: var(--m3e-sys-density-minimum-interactive-target);
+  padding: 0;
+  border: none;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: pointer;
+}
+
+.m3e-agui-tool-call__toggle:focus-visible {
+  outline: var(--m3e-comp-button-focus-ring-width) solid var(--m3e-comp-button-focus-ring-color);
+  outline-offset: var(--m3e-comp-button-focus-ring-offset);
+  border-radius: var(--m3e-sys-shape-corner-small);
+}
+
+.m3e-agui-tool-call__name {
+  overflow-wrap: anywhere;
+}
+
+.m3e-agui-tool-call__chevron {
+  color: var(--m3e-sys-color-on-surface-variant);
+  transition-property: transform;
+  transition-duration: var(--m3e-sys-motion-expressive-fast-spatial-duration);
+  transition-timing-function: var(--m3e-sys-motion-expressive-fast-spatial-easing);
+}
+
+.m3e-agui-tool-call[data-expanded] .m3e-agui-tool-call__chevron {
+  transform: rotate(180deg);
+}
+
+.m3e-agui-tool-call__spinner {
+  flex: none;
+}
+
+.m3e-agui-tool-call__done {
+  color: var(--m3e-sys-color-primary);
+  flex: none;
+}
+
+.m3e-agui-tool-call__failed {
+  color: var(--m3e-sys-color-error);
+  flex: none;
+}
+
+.m3e-agui-tool-call__body {
+  padding-block-end: 4px;
+}
+
+.m3e-agui-tool-call__legend {
+  margin: 8px 0 4px;
+  color: var(--m3e-sys-color-on-surface-variant);
+}
+
+.m3e-agui-tool-call__code {
+  margin: 0;
+  padding: 8px 10px;
+  overflow-x: auto;
+  border-radius: var(--m3e-sys-shape-corner-small);
+  background: var(--m3e-sys-color-surface-container-high);
+  color: var(--m3e-sys-color-on-surface);
+  font-family: ui-monospace, "SF Mono", "Cascadia Code", Menlo, Consolas, monospace;
+  font-size: var(--m3e-sys-typescale-baseline-body-small-font-size);
+  line-height: var(--m3e-sys-typescale-baseline-body-small-line-height);
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .m3e-agui-tool-call__chevron {
+    transition: none;
+  }
+}
