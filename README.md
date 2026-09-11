@@ -153,6 +153,22 @@ progressively instead of popping in when the call closes.
 
 Tool names with no renderer fall back to `ToolCallCard`.
 
+### Shared state and editable forms
+
+The source now includes `useAgentDraft` for editable forms: drafts survive
+incoming snapshots/deltas, changed proposals require explicit review, and approval
+sends the proposal ID, expected revision, and draft changes. Plug a versioned
+form into `AgentProvider.interruptRenderer` to use it inside `AgentChat`.
+
+These safeguards are **not yet in npm 0.1.0**. In this source version, direct
+`setState()` calls during a run throw rather than accepting an edit the SDK may
+overwrite. Paused/idle state replacement remains supported. The default approval
+prompt also requires review when its state changes.
+
+See [shared state and approvals](docs/SHARED_STATE.md) for setup and the required
+backend revision check. Try **Shared state** in the local playground for a working
+draft/edit/approve flow, including a simulated stale server response.
+
 ### Human in the loop
 
 A run that stops for permission finishes with an interrupt. `InterruptPrompt`
@@ -262,6 +278,7 @@ The playground builds from `src`, so what you see is the source.
 
 - [Live demo and user documentation](https://m3e.language-lit.com/ag-ui/)
 - [CopilotKit integration guide](docs/COPILOTKIT.md)
+- [Shared state, editing, and approvals](docs/SHARED_STATE.md)
 - [Native example](playground/App.tsx) and [CopilotKit example](playground/CopilotDemo.tsx)
 - [Material 3 Expressive design system](https://m3e.language-lit.com)
 - [SPEC.md](docs/SPEC.md) — scope, public surface, accessibility, quality bar

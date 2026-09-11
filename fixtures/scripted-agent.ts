@@ -21,21 +21,25 @@ export interface ScriptedAgentConfig extends AgentConfig {
   script: Script
   /** Delay between events, in ms. `0` emits synchronously. */
   pace?: number
+  /** Optional deterministic gate; events still pass through the real SDK. */
+  beforeEvent?: (event: BaseEvent, input: RunAgentInput) => Promise<void>
 }
 
 export class ScriptedAgent extends AbstractAgent {
   private readonly script: Script
   private readonly pace: number
   private stream?: Subscriber<BaseEvent>
+  private readonly beforeEvent?: ScriptedAgentConfig['beforeEvent']
 
   override abortRun(): void {
     this.stream?.error(new DOMException('Run cancelled', 'AbortError'))
   }
 
-  constructor({ script, pace = 0, ...config }: ScriptedAgentConfig) {
+  constructor({ script, pace = 0, beforeEvent, ...config }: ScriptedAgentConfig) {
     super(config)
     this.script = script
     this.pace = pace
+    this.beforeEvent = beforeEvent
   }
 
   run(input: RunAgentInput): Observable<BaseEvent> {
@@ -48,6 +52,7 @@ export class ScriptedAgent extends AbstractAgent {
       void (async () => {
         for (const event of events) {
           if (cancelled) return
+          if (this.beforeEvent) await this.beforeEvent(event, input)
           if (pace > 0) await new Promise((resolve) => setTimeout(resolve, pace))
           if (cancelled) return
           subscriber.next(event)

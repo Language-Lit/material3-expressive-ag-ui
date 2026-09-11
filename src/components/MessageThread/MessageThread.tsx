@@ -4,8 +4,8 @@ import { Text } from '@language-lit/material3-expressive'
 
 import { cx } from '../../internal/classNames'
 import type { TimelineNode } from '../../protocol/timeline.types'
-import { useAgentContext, useToolRenderers } from '../../runtime/agent-context'
-import type { ToolRendererRegistry } from '../../runtime/agent-context'
+import { useAgentContext, useToolRenderers, useInterruptRenderer } from '../../runtime/agent-context'
+import type { ToolRendererRegistry, InterruptRenderer } from '../../runtime/agent-context'
 import type { UseAgentResult } from '../../runtime/useAgent'
 import { ActivityRow } from '../ActivityRow'
 import { AssistantMessage } from '../AssistantMessage'
@@ -24,6 +24,7 @@ function renderNode(
   node: TimelineNode,
   renderers: ToolRendererRegistry,
   agent: UseAgentResult,
+  CustomInterrupt?: InterruptRenderer,
 ): ReactNode {
   switch (node.kind) {
     case 'user':
@@ -35,7 +36,7 @@ function renderNode(
     case 'activity':
       return <ActivityRow node={node} />
     case 'interrupt':
-      return <InterruptPrompt node={node} />
+      return CustomInterrupt ? <CustomInterrupt node={node} agent={agent} /> : <InterruptPrompt node={node} />
     case 'error':
       return (
         <Text as="p" variant="bodyMedium" className="m3e-agui-thread__error">
@@ -63,6 +64,7 @@ function renderNode(
 export function MessageThread({ emptyState, className }: MessageThreadProps) {
   const agent = useAgentContext()
   const renderers = useToolRenderers()
+  const interruptRenderer = useInterruptRenderer()
   const scrollRef = useRef<HTMLDivElement>(null)
   const pinnedRef = useRef(true)
   const { timeline } = agent
@@ -91,7 +93,7 @@ export function MessageThread({ emptyState, className }: MessageThreadProps) {
         <div className="m3e-agui-thread__empty">{emptyState}</div>
       ) : null}
       {timeline.map((node) => (
-        <Fragment key={`${node.kind}:${node.id}`}>{renderNode(node, renderers, agent)}</Fragment>
+        <Fragment key={`${node.kind}:${node.id}`}>{renderNode(node, renderers, agent, interruptRenderer)}</Fragment>
       ))}
     </div>
   )

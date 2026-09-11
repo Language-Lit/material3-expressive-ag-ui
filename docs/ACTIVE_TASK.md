@@ -231,8 +231,6 @@ Use existing demo links; the owner will provide images or recordings later.
   and package-boundary checks. `git diff --check` passes.
 - No product geometry changed. Images and recordings are deferred to the owner.
 
-## Current task
-
 ## T06 — Publish README preview and repository presentation
 
 Status: complete
@@ -263,3 +261,88 @@ and the already prepared `docs/COPILOTKIT.md`.
 - GitHub description, demo homepage, and eight discovery topics were applied
   and read back successfully. Remote main matched the local base before publication.
 - T05 documentation and this preview are published together in the completing commit.
+
+## T07 — Shared state and human interaction coverage
+
+Status: complete
+Approved: 2026-09-11 (owner: cover concurrent shared-state edits and approvals)
+Completed: 2026-09-11
+
+### Scope and expected files
+
+Add deterministic event gates to the real scripted SDK fixture and integration
+tests for state snapshots/deltas, concurrent local edits, approval/resume state,
+and application-owned drafts and revision validation. Document tested guarantees
+and SDK/application boundaries in `README.md` and `docs/SHARED_STATE.md`.
+Expected files: `fixtures/scripted-agent.ts`, `tests/runtime/`, and these docs.
+Fix package binding defects if exposed; do not invent a generic merge policy.
+
+### Acceptance checks
+
+1. Tests exercise real SDK verification, assembly, and state application with
+   deterministic user/event interleavings, without timing sleeps.
+2. Tests assert both state visible to React and state/payload sent on resume.
+3. Document overwrite behavior and test a version-checked application approval.
+4. `npm run verify` and `git diff --check` pass.
+
+### Verification record
+
+- Six new StrictMode integration cases use deterministic gates in ScriptedAgent;
+  the real SDK still verifies events, expands chunks, applies state, and resumes.
+- Confirmed SDK 0.0.59 can overwrite an in-flight frontend edit even with a
+  delta to a different field. Recorded the boundary rather than altering SDK
+  semantics or silently introducing a merge policy.
+- Approve and cancel both pass the latest paused state into resume, including
+  a setState/resume in the same turn before React publishes its next snapshot.
+- Separate application drafts survive streamed state/text; modeled backend
+  revision validation accepts a current approval and re-interrupts a stale one
+  without applying the draft. This is an application contract, not a new library
+  or CopilotKit guarantee.
+- `npm run verify` passes: 71 tests, typecheck, build, and package checks.
+  `git diff --check` passes. No production runtime or component geometry changed.
+
+## Current task
+
+## T08 — Preserve drafts and guard approvals
+
+Status: complete
+Approved: 2026-09-11 (owner: fix shared-state overwrites and stale approval)
+Completed: 2026-09-11
+
+### Scope and expected files
+
+Add a public draft hook, guard unsafe active-run state writes and concurrent
+resumes, guard the stock approval against changed state, and expose an interrupt
+renderer through AgentProvider for versioned forms inside AgentChat. Add an ADR,
+SDK-backed runtime/component tests, a working playground example, and consumer
+documentation. Files: src/runtime, src/internal, InterruptPrompt, MessageThread,
+tests, playground, README, SPEC, ARCHITECTURE, SHARED_STATE and ADR 0005.
+
+### Acceptance checks
+
+1. Draft edits survive snapshots/deltas and failed or stale approvals.
+2. Approval rechecks live state before sending, includes proposal identity and
+   revision, and rejects duplicate/missing interrupt or active-run attempts.
+3. Default approval notices changed state and requires explicit review.
+4. Backend example validates revision before applying any changes.
+5. Full verify and playground build pass; light/dark browser checks pass.
+
+### Verification record
+
+- Implemented useAgentDraft, isolated edit sessions, explicit keep/reset review,
+  live proposal/state validation, revision payloads, and submission locking.
+  Active native setState/run/resume conflicts now reject before mutation.
+- The stock prompt blocks changed-state approval and displays the updated state
+  for explicit review; an expectedState guard catches render-to-click races.
+  AgentProvider.interruptRenderer supports custom versioned forms in AgentChat.
+- SDK tests cover live state changes before render, proposal ID/revision/value
+  changes and removal, network failure/retry, duplicate requests, reset/agent
+  replacement, cancellation, and the actual playground form end to end.
+- `npm run verify`: 81 tests in 12 files, typecheck, build, styles and package
+  checks pass. `npm run playground:build` and `git diff --check` pass.
+- Chrome checks at 1280px in light/dark and 390px verify draft retention,
+  disabled stale approval, rejection after unseen server change, explicit review,
+  and successful save. No page errors or horizontal overflow; screenshots inspected.
+- ADR 0005 and SHARED_STATE document migration and the backend atomic validation
+  contract. Native source implementation complete; CopilotKit runtime unchanged.
+  Not committed, pushed, or released as part of this task.

@@ -11,6 +11,7 @@ import { AgentChat } from '../src/components/AgentChat'
 import { AgentProvider } from '../src/runtime/agent-context'
 import type { ToolRendererRegistry } from '../src/runtime/agent-context'
 import { createDemoAgent } from './demo-agent'
+import { SharedStateDemo } from './SharedStateDemo'
 
 const CopilotDemo = lazy(() => import('./CopilotDemo').then((module) => ({ default: module.CopilotDemo })))
 
@@ -67,7 +68,7 @@ export function App() {
             AG-UI · Material 3 Expressive
           </Text>
           <div className="pg-bar__actions">
-            <SegmentedButtonGroup segments={[{ value: 'native', label: 'AG-UI' }, { value: 'copilotkit', label: 'CopilotKit' }]}
+            <SegmentedButtonGroup segments={[{ value: 'native', label: 'AG-UI' }, { value: 'copilotkit', label: 'CopilotKit' }, { value: 'state', label: 'Shared state' }]}
               value={demo} onValueChange={setDemo} />
             <SegmentedButtonGroup
               segments={[
@@ -82,7 +83,7 @@ export function App() {
         </div>
 
         <Surface color="surface" className={`pg-chat${demo === 'copilotkit' ? ' pg-chat--copilotkit' : ''}`}>
-          {demo === 'copilotkit' ? <Suspense fallback={<Text className="pg-chat__status">Loading CopilotKit…</Text>}><CopilotDemo /></Suspense> :
+          {demo === 'state' ? <SharedStateDemo /> : demo === 'copilotkit' ? <Suspense fallback={<Text className="pg-chat__status">Loading CopilotKit…</Text>}><CopilotDemo /></Suspense> :
           <AgentProvider agent={agent} toolRenderers={toolRenderers}>
             <AgentChat
               emptyState={

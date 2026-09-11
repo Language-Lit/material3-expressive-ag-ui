@@ -153,6 +153,22 @@ load-bearing:
 place `useAgent` is called, so a thread and its composer share one run rather
 than starting two.
 
+### 3.3.1 Editing and approval guards
+
+The native binding MUST reject `setState` during a run and MUST reject
+overlapping run/resume calls. `useAgentDraft` holds JSON-compatible drafts
+separately from incoming SDK state. It MUST preserve drafts until explicitly
+replaced or the agent identity changes. Review and approval MUST compare the
+displayed/reviewed proposal with live agent state; approval carries proposal
+identity, expected revision and draft changes in the resume payload.
+
+`AgentProvider.interruptRenderer` permits a versioned form in the stock thread.
+The default `InterruptPrompt` MUST require explicit review when its captured
+state changes and MUST recheck at click time via `expectedState`.
+Backend atomic revision validation and authorization remain application duties.
+See [ADR 0005](adr/0005-drafts-and-guarded-approval.md). These safeguards are
+implemented after 0.1.0 and await release.
+
 ### 3.4 Streaming tool arguments
 
 `TOOL_CALL_ARGS` deltas mean a tool call's arguments are unparseable JSON for

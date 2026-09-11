@@ -2,7 +2,13 @@ import { createContext, useContext, useMemo } from 'react'
 import type { ReactNode } from 'react'
 import type { AbstractAgent } from '@ag-ui/client'
 
-import type { ToolCallNode } from '../protocol/timeline.types'
+import type { ToolCallNode, InterruptNode } from '../protocol/timeline.types'
+
+export interface InterruptRendererProps {
+  node: InterruptNode
+  agent: UseAgentResult
+}
+export type InterruptRenderer = (props: InterruptRendererProps) => ReactNode
 import { useAgent } from './useAgent'
 import type { UseAgentOptions, UseAgentResult } from './useAgent'
 
@@ -27,6 +33,7 @@ export type ToolRendererRegistry = Readonly<Record<string, ToolRenderer>>
 interface AgentContextValue {
   agent: UseAgentResult
   toolRenderers: ToolRendererRegistry
+  interruptRenderer?: InterruptRenderer
 }
 
 const AgentContext = createContext<AgentContextValue | undefined>(undefined)
@@ -36,6 +43,8 @@ export interface AgentProviderProps extends UseAgentOptions {
   agent: AbstractAgent
   /** Per-tool generative UI renderers. */
   toolRenderers?: ToolRendererRegistry
+  /** Custom approval UI, for example a versioned form using useAgentDraft. */
+  interruptRenderer?: InterruptRenderer
   children: ReactNode
 }
 
@@ -51,14 +60,15 @@ const NO_RENDERERS: ToolRendererRegistry = {}
 export function AgentProvider({
   agent,
   toolRenderers = NO_RENDERERS,
+  interruptRenderer,
   children,
   ...options
 }: AgentProviderProps) {
   const { includeReasoning, includeSystem, tools, context, forwardedProps } = options
   const bound = useAgent(agent, { includeReasoning, includeSystem, tools, context, forwardedProps })
   const value = useMemo<AgentContextValue>(
-    () => ({ agent: bound, toolRenderers }),
-    [bound, toolRenderers],
+    () => ({ agent: bound, toolRenderers, interruptRenderer }),
+    [bound, toolRenderers, interruptRenderer],
   )
   return <AgentContext.Provider value={value}>{children}</AgentContext.Provider>
 }
@@ -70,6 +80,10 @@ export function useAgentContext(): UseAgentResult {
 
 export function useToolRenderers(): ToolRendererRegistry {
   return useAgentContextValue().toolRenderers
+}
+
+export function useInterruptRenderer(): InterruptRenderer | undefined {
+  return useAgentContextValue().interruptRenderer
 }
 
 function useAgentContextValue(): AgentContextValue {

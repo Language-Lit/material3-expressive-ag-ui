@@ -6,6 +6,12 @@ import type { Context, Interrupt, Message, State, Tool } from '@ag-ui/core'
 import { projectTimeline } from '../protocol/project'
 import type { RunPhase, StepRecord, TimelineNode } from '../protocol/timeline.types'
 import { createAgentStore } from './agent-store'
+import { sameJson } from '../internal/sameJson'
+
+export interface InterruptResolutionOptions {
+  /** Reject if the live state differs from what the user reviewed. JSON values only. */
+  expectedState?: State
+}
 
 /** Answer to one interrupt, mirroring `buildResumeArray`'s response shape. */
 export type InterruptResponse =
@@ -45,7 +51,8 @@ export interface UseAgentResult {
   /** Abort the run in flight. */
   stop(): void
   /** Answer one interrupt and resume the run. */
-  resolveInterrupt(interruptId: string, response: InterruptResponse): Promise<void>
+  resolveInterrupt(interruptId: string, response: InterruptResponse, options?: InterruptResolutionOptions): Promise<void>
+  /** Replace state while idle/paused. Throws during a run; use useAgentDraft for live editing. */
   setState(state: State): void
 }
 
@@ -85,6 +92,7 @@ export function useAgent(agent: AbstractAgent, options: UseAgentOptions = {}): U
 
   const run = useCallback(
     async (parameters?: RunAgentParameters) => {
+      if (agent.isRunning) throw new Error('An agent run is already active.')
       await agent.runAgent({ ...runParameters, ...parameters })
     },
     [agent, runParameters],
@@ -94,6 +102,7 @@ export function useAgent(agent: AbstractAgent, options: UseAgentOptions = {}): U
     async (text: string) => {
       const content = text.trim()
       if (content === '') return
+      if (agent.isRunning) throw new Error('An agent run is already active.')
       agent.addMessage({ id: randomUUID(), role: 'user', content })
       await agent.runAgent(runParameters)
     },
@@ -105,7 +114,14 @@ export function useAgent(agent: AbstractAgent, options: UseAgentOptions = {}): U
   }, [agent])
 
   const resolveInterrupt = useCallback(
-    async (interruptId: string, response: InterruptResponse) => {
+    async (interruptId: string, response: InterruptResponse, options?: InterruptResolutionOptions) => {
+      if (agent.isRunning) throw new Error('Wait for the active run before answering an interrupt.')
+      if (!agent.pendingInterrupts.some(interrupt => interrupt.id === interruptId)) {
+        throw new Error('This approval is no longer pending.')
+      }
+      if (options && 'expectedState' in options && !sameJson(options.expectedState, agent.state)) {
+        throw new Error('The state changed. Review the updated state before approving.')
+      }
       const resume = buildResumeArray([...agent.pendingInterrupts], { [interruptId]: response })
       await agent.runAgent({ ...runParameters, resume })
     },
@@ -114,6 +130,9 @@ export function useAgent(agent: AbstractAgent, options: UseAgentOptions = {}): U
 
   const setState = useCallback(
     (next: State) => {
+      if (agent.isRunning) {
+        throw new Error('Cannot replace shared state during an active run. Use useAgentDraft for editable fields.')
+      }
       agent.setState(next)
     },
     [agent],

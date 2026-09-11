@@ -65,3 +65,20 @@ body {
   font-size: var(--m3e-sys-typescale-baseline-display-small-font-size);
   line-height: var(--m3e-sys-typescale-baseline-display-small-line-height);
 }
+
+.pg-review-layout {
+  block-size: 100%;
+  overflow: auto;
+}
+
+.pg-review-card {
+  display: grid;
+  gap: 8px;
+  margin: 16px;
+  padding: 16px;
+}
+
+.pg-review-layout > .m3e-agui-chat {
+  block-size: auto;
+  min-block-size: 360px;
+}

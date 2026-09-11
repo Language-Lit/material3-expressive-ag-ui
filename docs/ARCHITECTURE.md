@@ -132,6 +132,14 @@ helper, so the resume shape stays the SDK's business — and starts a new run wi
 
 ## Components
 
+Shared-state editing now uses a separate draft session rather than writing into
+an active SDK reducer. `useAgentDraft` preserves the user's draft and the proposal
+they reviewed; it validates against live agent state before resuming. Native
+`setState` rejects during a run. The default prompt uses a whole-state guard,
+while `AgentProvider.interruptRenderer` supports versioned application forms.
+See [ADR 0005](adr/0005-drafts-and-guarded-approval.md) and the
+[consumer guide](SHARED_STATE.md). These checks do not replace backend validation.
+
 Ten components. Each is a directory of `<Name>.tsx`, `<Name>.css`, and
 `index.ts`. Types live in the `.tsx` — a deliberate deviation from the design
 system's `<Name>.types.ts` split, recorded in [SPEC.md §6](SPEC.md).
