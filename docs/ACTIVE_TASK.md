@@ -402,3 +402,38 @@ and this file.
   the native entry (`useAgent`, `useAgentDraft`, `AgentChat`), the React-free
   protocol entry, and the stylesheet. Zero runtime dependencies.
 - The GitHub release for `v0.2.0` has not been created; `v0.1.0` has one.
+
+## T10 — Announcement and ecosystem listing
+
+Status: complete
+Approved: 2026-09-12 (owner: "Should we send the PR as well?" then "go")
+Completed: 2026-09-12
+
+### Scope and expected files
+
+Announce the package to the AG-UI community and ask for a listing in the
+AG-UI repository's client tables, the way the A2UI companion is listed on
+the A2UI ecosystem page. Expected files: none in this repository beyond
+this record; the listing itself lives in `ag-ui-protocol/ag-ui`.
+
+### Acceptance checks
+
+1. A Show and tell discussion in `ag-ui-protocol/ag-ui` describes the
+   package and links the demo, the source and npm.
+2. A pull request against `ag-ui-protocol/ag-ui` adds one Community row to
+   the README Clients table and the matching line in
+   `docs/integrations.mdx`, and nothing else.
+3. The pull request commit is authored by the owner alone.
+
+### Verification record
+
+- Discussion #2723, "Material 3 Expressive React client for AG-UI", posted
+  2026-09-11 in Show and tell:
+  https://github.com/ag-ui-protocol/ag-ui/discussions/2723
+- Pull request #2736, "docs: list Material 3 Expressive as a community
+  AG-UI client", opened 2026-09-11 from the owner's fork branch
+  `docs/clients-material3-expressive` at commit `347394c`: two files, two
+  added lines. https://github.com/ag-ui-protocol/ag-ui/pull/2736
+- The AG-UI repository has no contributor license agreement. The pull
+  request awaits maintainer review; the README tables are curated by the
+  CopilotKit team, and community rows exist there already.
