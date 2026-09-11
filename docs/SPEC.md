@@ -1,8 +1,8 @@
 # Material 3 Expressive AG-UI Specification
 
-Status: native slice and CopilotKit v1 adapter implemented; unreleased
-Specification date: 2026-09-10
-Current version: `0.1.0`
+Status: native slice, CopilotKit v1 adapter, and guarded drafts implemented; released
+Specification date: 2026-09-11
+Current version: `0.2.0`
 
 This document defines the product, boundary, architecture, and quality bar for
 `@language-lit/material3-expressive-ag-ui`.
@@ -166,8 +166,8 @@ identity, expected revision and draft changes in the resume payload.
 The default `InterruptPrompt` MUST require explicit review when its captured
 state changes and MUST recheck at click time via `expectedState`.
 Backend atomic revision validation and authorization remain application duties.
-See [ADR 0005](adr/0005-drafts-and-guarded-approval.md). These safeguards are
-implemented after 0.1.0 and await release.
+See [ADR 0005](adr/0005-drafts-and-guarded-approval.md). These safeguards ship
+in 0.2.0.
 
 ### 3.4 Streaming tool arguments
 

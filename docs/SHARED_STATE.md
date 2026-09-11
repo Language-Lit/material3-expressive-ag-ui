@@ -1,7 +1,7 @@
 # Shared state, editing, and guarded approvals
 
-The source includes production draft and approval guards implemented after
-0.1.0; they are **not yet published to npm**.
+The draft and approval guards described here are available from **0.2.0**.
+Version 0.1.0 has neither the draft hook nor the active-run `setState()` guard.
 
 ## Migrate live editing to a draft
 
