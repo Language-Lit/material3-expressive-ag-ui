@@ -100,6 +100,12 @@ a new interrupt for review. Client checks cannot detect an unseen server change.
 The playground demonstrates the identity/revision check before any write; it
 is not a deployed backend or a substitute for your server's authorization.
 
+`fixtures/ag-ui-http-server.ts` is the smallest server that satisfies this
+contract: a Node HTTP endpoint streaming SSE, which compares `proposalId` and
+`expectedRevision` against its own state and applies `changes` in the same
+synchronous step. Tests drive it through the SDK's own `HttpAgent`, so the
+request body, the event schemas, and the rejection path are the real ones.
+
 ## Default prompt and imperative callers
 
 `InterruptPrompt` captures shared state when it opens. When state changes, it
@@ -121,6 +127,11 @@ drafts, explicit review, approve/cancel resume state, updates between render and
 click, retries, duplicate calls, and backend revision rejection. They run through
 event verification and chunk expansion under deterministic gates; draft
 integration tests also run under StrictMode.
+
+Two of them run over HTTP against the fixture server above: an approval whose
+reviewed revision still holds is applied, and one overtaken by another actor
+applies nothing, keeps the draft, and comes back as a fresh interrupt carrying
+the change the client had not seen.
 
 A protocol interrupt ends its run. The tests do not claim that the interrupted
 stream keeps emitting while approval is pending, nor that state is magically

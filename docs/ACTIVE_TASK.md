@@ -301,8 +301,6 @@ Fix package binding defects if exposed; do not invent a generic merge policy.
 - `npm run verify` passes: 71 tests, typecheck, build, and package checks.
   `git diff --check` passes. No production runtime or component geometry changed.
 
-## Current task
-
 ## T08 — Preserve drafts and guard approvals
 
 Status: complete
@@ -346,3 +344,53 @@ tests, playground, README, SPEC, ARCHITECTURE, SHARED_STATE and ADR 0005.
 - ADR 0005 and SHARED_STATE document migration and the backend atomic validation
   contract. Native source implementation complete; CopilotKit runtime unchanged.
   Not committed, pushed, or released as part of this task.
+
+## Current task
+
+## T09 — HTTP backend contract and 0.2.0 release
+
+Status: active
+Approved: 2026-09-11 (owner: add the real HttpAgent backend fixture, then
+prepare the 0.2.0 release)
+
+### Scope and expected files
+
+Prove the approval contract on the wire before releasing it. Add a
+dependency-free Node HTTP/SSE fixture that compares `proposalId` and
+`expectedRevision` against authoritative state and applies `changes` in the
+same step, and drive it through the SDK's own `HttpAgent` from runtime tests.
+Then prepare 0.2.0 — version, README release status, and this record — leaving
+the commit, push, publish and tag to the owner's separate confirmation. Files:
+`fixtures/ag-ui-http-server.ts`, `tests/runtime/http-agent.test.tsx`,
+`docs/SHARED_STATE.md`, `AGENTS.md`, `README.md`, `package.json`, the lockfile
+and this file.
+
+### Acceptance checks
+
+1. A real `HttpAgent` run receives a proposal, streams an interrupt, and
+   resumes over HTTP with `{ proposalId, expectedRevision, changes }`.
+2. A current approval is applied atomically; one overtaken by another actor
+   applies nothing, keeps the draft, and returns a new review carrying the
+   change the client never saw.
+3. The fixture uses `node:http` only, listens on port 0, closes after each
+   test, and needs no credentials or private downstream application.
+4. `npm run verify` and `npm pack --dry-run` pass.
+
+### Verification record (2026-09-11)
+
+- The two cases run against a real socket: `HttpAgent` posts the run input,
+  the fixture answers with SSE, and the SDK verifies every event against its
+  own schemas. The resume body recorded server-side is asserted verbatim.
+- Deterministic without sleeps: the fixture holds the stream open until the
+  test publishes the updated proposal, so the mid-run snapshot always lands
+  while the draft is being edited. Five consecutive runs were stable.
+- Mutation-checked. Removing the server's revision comparison fails the stale
+  case; sending a wrong `expectedRevision` from the hook fails both.
+- `npm run verify` passes: typecheck, 83 tests in 13 files, build, stylesheet
+  guard and package-boundary checks. `npm pack --dry-run` reports the same 21
+  files; the fixture and tests stay out of the tarball.
+
+### Remaining
+
+The release itself: commit, push, wait for CI, `npm publish`, and the `v0.2.0`
+tag and GitHub release. Not performed — each awaits the owner's confirmation.

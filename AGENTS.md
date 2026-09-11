@@ -85,6 +85,11 @@ Tests must exercise the real SDK pipeline. `fixtures/scripted-agent.ts` is an
 chunk expansion, and transcript assembly would prove nothing about behaviour
 against a real backend. Do not replace it with a stub.
 
+`fixtures/ag-ui-http-server.ts` goes one step further for the approval contract:
+a Node HTTP/SSE endpoint driven through the SDK's own `HttpAgent`. Use it when
+the claim is about the wire — the resume payload, the event schemas, or a
+server-side revision check — and keep it dependency-free and credential-free.
+
 The unit tests run in jsdom, which has no layout and no paint. After changing
 component geometry, elevation, state layers, or color, also look at it:
 

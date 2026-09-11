@@ -14,7 +14,7 @@ across your chat and app controls.
 [CopilotKit setup](#copilotkit) ·
 [npm](https://www.npmjs.com/package/@language-lit/material3-expressive-ag-ui)
 
-Published as `@language-lit/material3-expressive-ag-ui`, version **0.1.0**.
+Published as `@language-lit/material3-expressive-ag-ui`, version **0.2.0**.
 This is an independent community implementation.
 
 [![Material 3 Expressive AG-UI chat showing a Recife weather card and an approval prompt with Cancel and Approve controls](docs/assets/agent-preview.webp)](https://m3e.language-lit.com/ag-ui/)
@@ -155,14 +155,14 @@ Tool names with no renderer fall back to `ToolCallCard`.
 
 ### Shared state and editable forms
 
-The source now includes `useAgentDraft` for editable forms: drafts survive
-incoming snapshots/deltas, changed proposals require explicit review, and approval
-sends the proposal ID, expected revision, and draft changes. Plug a versioned
-form into `AgentProvider.interruptRenderer` to use it inside `AgentChat`.
+`useAgentDraft` binds editable forms: drafts survive incoming snapshots/deltas,
+changed proposals require explicit review, and approval sends the proposal ID,
+expected revision, and draft changes. Plug a versioned form into
+`AgentProvider.interruptRenderer` to use it inside `AgentChat`.
 
-These safeguards are **not yet in npm 0.1.0**. In this source version, direct
-`setState()` calls during a run throw rather than accepting an edit the SDK may
-overwrite. Paused/idle state replacement remains supported. The default approval
+These safeguards arrive in 0.2.0 with one behavior change from 0.1.0: direct
+`setState()` calls during a run now throw rather than accepting an edit the SDK
+may overwrite. Paused/idle state replacement is unchanged. The default approval
 prompt also requires review when its state changes.
 
 See [shared state and approvals](docs/SHARED_STATE.md) for setup and the required
