@@ -349,9 +349,10 @@ tests, playground, README, SPEC, ARCHITECTURE, SHARED_STATE and ADR 0005.
 
 ## T09 — HTTP backend contract and 0.2.0 release
 
-Status: active
+Status: complete
 Approved: 2026-09-11 (owner: add the real HttpAgent backend fixture, then
 prepare the 0.2.0 release)
+Completed: 2026-09-11
 
 ### Scope and expected files
 
@@ -390,7 +391,14 @@ and this file.
   guard and package-boundary checks. `npm pack --dry-run` reports the same 21
   files; the fixture and tests stay out of the tarball.
 
-### Remaining
+### Release record (2026-09-11)
 
-The release itself: commit, push, wait for CI, `npm publish`, and the `v0.2.0`
-tag and GitHub release. Not performed — each awaits the owner's confirmation.
+- Published by the owner as commit `04c8c1a`. GitHub Actions `Verify` passed on
+  that commit before publication.
+- `0.2.0` is the `latest` tag on npm. Its registry metadata records gitHead
+  `04c8c1a`, 21 files and 253,496 bytes unpacked — the same tarball the dry run
+  reported. The annotated `v0.2.0` tag points at that commit.
+- A clean temporary consumer installed `0.2.0` from the registry and imported
+  the native entry (`useAgent`, `useAgentDraft`, `AgentChat`), the React-free
+  protocol entry, and the stylesheet. Zero runtime dependencies.
+- The GitHub release for `v0.2.0` has not been created; `v0.1.0` has one.
