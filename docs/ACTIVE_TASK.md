@@ -401,7 +401,10 @@ and this file.
 - A clean temporary consumer installed `0.2.0` from the registry and imported
   the native entry (`useAgent`, `useAgentDraft`, `AgentChat`), the React-free
   protocol entry, and the stylesheet. Zero runtime dependencies.
-- The GitHub release for `v0.2.0` has not been created; `v0.1.0` has one.
+- The GitHub release "v0.2.0 — Drafts and guarded approval" was published
+  on 2026-09-11 from the `v0.2.0` tag, alongside the existing `v0.1.0`
+  release. An earlier version of this record said it was missing; that was
+  written before the release was created.
 
 ## T10 — Announcement and ecosystem listing
 
