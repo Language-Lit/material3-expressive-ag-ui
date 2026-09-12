@@ -2,10 +2,11 @@
 
 ## T10 — 0.2.1 peer compatibility patch
 
-Status: active
+Status: complete
 Approved: 2026-09-12 (owner requested the documentation site update, which
 requires a clean installation alongside the published `1.3.0-rc.1` core
 candidate.)
+Completed: 2026-09-12
 
 ### Scope and expected files
 
@@ -21,6 +22,15 @@ are in scope.
 1. `npm run verify` passes at `0.2.1`.
 2. npm publishes `0.2.1` with the expanded core peer range.
 3. A clean install resolves `0.2.1` with core `1.3.0-rc.1` without peer errors.
+
+### Verification record
+
+- `npm run verify` passed: 13 test files / 83 tests, typecheck, distributable
+  build, and package-boundary verification.
+- npm published `@language-lit/material3-expressive-ag-ui@0.2.1`; registry
+  metadata exposes the expanded core peer range.
+- The documentation site's strict lockfile resolves this release alongside
+  core `1.3.0-rc.1`.
 
 
 ## T01 — AG-UI vertical slice
