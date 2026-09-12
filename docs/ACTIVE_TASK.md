@@ -1,5 +1,28 @@
 # Active task
 
+## T10 — 0.2.1 peer compatibility patch
+
+Status: active
+Approved: 2026-09-12 (owner requested the documentation site update, which
+requires a clean installation alongside the published `1.3.0-rc.1` core
+candidate.)
+
+### Scope and expected files
+
+Publish the patch release that expands only the core-library peer range to
+include the published `>=1.3.0-rc.1 <1.4.0` prerelease line. Update package and
+lockfile versions, the specification release version, and this task record.
+Verify the package, a clean registry installation with core `1.3.0-rc.1`, and
+the site dependency resolution. No API, implementation, or dependency changes
+are in scope.
+
+### Acceptance checks
+
+1. `npm run verify` passes at `0.2.1`.
+2. npm publishes `0.2.1` with the expanded core peer range.
+3. A clean install resolves `0.2.1` with core `1.3.0-rc.1` without peer errors.
+
+
 ## T01 — AG-UI vertical slice
 
 Status: complete
