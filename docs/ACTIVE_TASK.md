@@ -2,9 +2,10 @@
 
 ## T11 — 0.2.2 packaged README correction
 
-Status: active
+Status: complete
 Approved: 2026-09-12 (owner requested complete sibling-package and
 documentation corrections.)
+Completed: 2026-09-12
 
 ### Scope and acceptance
 
@@ -12,6 +13,13 @@ Correct the published-version sentence that remained `0.2.0` in the `0.2.1`
 tarball README. Publish `0.2.2` with no implementation or dependency-contract
 change. Verify the package and registry metadata, then use this corrected patch
 in the documentation site.
+
+### Verification record
+
+- `npm run verify` passed: 13 test files / 83 tests, typecheck, build, and
+  package-boundary verification.
+- npm published `@language-lit/material3-expressive-ag-ui@0.2.2` with the
+  corrected packaged README and unchanged peer contract.
 
 
 ## T10 — 0.2.1 peer compatibility patch
