@@ -2,7 +2,7 @@
 
 Status: native slice, CopilotKit v1 adapter, and guarded drafts implemented; released
 Specification date: 2026-09-11
-Current version: `0.2.1`
+Current version: `0.2.2`
 
 This document defines the product, boundary, architecture, and quality bar for
 `@language-lit/material3-expressive-ag-ui`.

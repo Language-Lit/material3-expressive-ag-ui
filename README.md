@@ -14,7 +14,7 @@ across your chat and app controls.
 [CopilotKit setup](#copilotkit) ·
 [npm](https://www.npmjs.com/package/@language-lit/material3-expressive-ag-ui)
 
-Published as `@language-lit/material3-expressive-ag-ui`, version **0.2.0**.
+Published as `@language-lit/material3-expressive-ag-ui`, version **0.2.2**.
 This is an independent community implementation.
 
 [![Material 3 Expressive AG-UI chat showing a Recife weather card and an approval prompt with Cancel and Approve controls](docs/assets/agent-preview.webp)](https://m3e.language-lit.com/ag-ui/)

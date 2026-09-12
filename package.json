@@ -1,6 +1,6 @@
 {
   "name": "@language-lit/material3-expressive-ag-ui",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "Material 3 Expressive chat and agent components for the AG-UI protocol — a React-free event projection, an agent binding hook, and conformant M3 surfaces for streaming text, reasoning, tool calls, and activity.",
   "license": "MIT",
   "homepage": "https://m3e.language-lit.com",

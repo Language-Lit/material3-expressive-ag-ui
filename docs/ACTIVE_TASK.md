@@ -1,5 +1,19 @@
 # Active task
 
+## T11 — 0.2.2 packaged README correction
+
+Status: active
+Approved: 2026-09-12 (owner requested complete sibling-package and
+documentation corrections.)
+
+### Scope and acceptance
+
+Correct the published-version sentence that remained `0.2.0` in the `0.2.1`
+tarball README. Publish `0.2.2` with no implementation or dependency-contract
+change. Verify the package and registry metadata, then use this corrected patch
+in the documentation site.
+
+
 ## T10 — 0.2.1 peer compatibility patch
 
 Status: complete
